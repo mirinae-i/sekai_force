@@ -1,0 +1,54 @@
+.wrapper_out {
+  margin: 2rem;
+}
+
+.title_text {
+  line-height: 10rem;
+}
+
+#songs_header {
+  margin-bottom: 2rem;
+}
+
+.d_easy {
+  color: limegreen;
+}
+
+.d_normal {
+  color: deepskyblue;
+}
+
+.d_hard {
+  color: gold;
+}
+
+.d_expert {
+  color: orangered;
+}
+
+.d_master {
+  color: blueviolet;
+}
+
+.wrapper_asc_desc,
+.asc_desc_line {
+  margin-bottom: 0.5rem;
+}
+
+.song_cb {
+  width: 2rem;
+  height: 2rem;
+}
+
+.fc_row {
+  margin-bottom: 0.5rem;
+}
+
+.ap_row {
+  margin-top: 0.5rem;
+}
+
+.fc_label,
+.ap_label {
+  line-height: 2rem;
+}
