@@ -24,6 +24,6 @@
 }
 
 .best_39_image {
-  width: 90%;
+  max-width: 90%;
   margin-bottom: 0.5rem;
 }
