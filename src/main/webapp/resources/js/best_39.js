@@ -82,14 +82,22 @@ function upload() {
                         $('#best_39_song_name_kr_' + (index + 1)).text(item.song_name_kr);
                         $('#score_' + (index + 1)).text(item.score);
                         force = force + item.score;
+                        let v_diff;
+                        if (item.marker.endsWith('hard')) {
+                            v_diff = 'Hard';
+                        } else if (item.marker.endsWith('expert')) {
+                            v_diff = 'Expert';
+                        } else if (item.marker.endsWith('master')) {
+                            v_diff = 'Master';
+                        }
                         if (item.marker.startsWith('fc_')) {
-                            $('#best_39_song_difficulty_' + (index + 1)).text('FC');
+                            $('#best_39_song_difficulty_' + (index + 1)).text(v_diff + ' | FC');
                             if (max_fc < item.score) {
                                 max_fc = item.score;
                             }
                         }
                         if (item.marker.startsWith('ap_')) {
-                            $('#best_39_song_difficulty_' + (index + 1)).text('AP');
+                            $('#best_39_song_difficulty_' + (index + 1)).text(v_diff + ' | AP');
                             if (max_ap < item.score) {
                                 max_ap = item.score;
                             }

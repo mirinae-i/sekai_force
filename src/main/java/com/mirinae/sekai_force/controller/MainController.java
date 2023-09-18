@@ -71,4 +71,10 @@ public class MainController {
         return service.best39Action(request);
     }
 
+    @RequestMapping(path = "/about", method = RequestMethod.GET)
+	public String about() {
+		logger.info("** MainController - about() **");
+		return "/about";
+	}
+
 }
