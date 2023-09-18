@@ -1,7 +1,7 @@
 let check = {};
 let sort_method = 'option_asc';
 let sort_by = 'option_default';
-let checked_val = [];
+let checked_val = new Set();
 
 $(function () {
     // ASC, DESC
@@ -216,7 +216,7 @@ $(function () {
                     );
                     $('#songs_body').append(
                         '<div class="row fc_row"><div class="col d-flex justify-content-around fc_label">FC</div>' +
-                            '<div class="col d-flex justify-content-around"><input class="form-check-input song_cb" type="checkbox" name="cb_fc_hd_' +
+                            '<div class="col d-flex justify-content-around"><input class="form-check-input song_radio" type="radio" name="radio_hd_' +
                             song.song_cate +
                             '_' +
                             song.song_no +
@@ -228,7 +228,7 @@ $(function () {
                             song.song_cate +
                             '_' +
                             song.song_no +
-                            '" /></div><div class="col d-flex justify-content-around"><input class="form-check-input song_cb" type="checkbox" name="cb_fc_ex_' +
+                            '" /></div><div class="col d-flex justify-content-around"><input class="form-check-input song_radio" type="radio" name="radio_ex_' +
                             song.song_cate +
                             '_' +
                             song.song_no +
@@ -240,7 +240,7 @@ $(function () {
                             song.song_cate +
                             '_' +
                             song.song_no +
-                            '" /></div><div class="col d-flex justify-content-around"><input class="form-check-input song_cb" type="checkbox" name="cb_fc_mas_' +
+                            '" /></div><div class="col d-flex justify-content-around"><input class="form-check-input song_radio" type="radio" name="radio_mas_' +
                             song.song_cate +
                             '_' +
                             song.song_no +
@@ -256,7 +256,7 @@ $(function () {
                     );
                     $('#songs_body').append(
                         '<div class="row ap_row"><div class="col d-flex justify-content-around ap_label">AP</div>' +
-                            '<div class="col d-flex justify-content-around"><input class="form-check-input song_cb" type="checkbox" name="cb_ap_hd_' +
+                            '<div class="col d-flex justify-content-around"><input class="form-check-input song_radio" type="radio" name="radio_hd_' +
                             song.song_cate +
                             '_' +
                             song.song_no +
@@ -268,7 +268,7 @@ $(function () {
                             song.song_cate +
                             '_' +
                             song.song_no +
-                            '" /></div><div class="col d-flex justify-content-around"><input class="form-check-input song_cb" type="checkbox" name="cb_ap_ex_' +
+                            '" /></div><div class="col d-flex justify-content-around"><input class="form-check-input song_radio" type="radio" name="radio_ex_' +
                             song.song_cate +
                             '_' +
                             song.song_no +
@@ -280,7 +280,7 @@ $(function () {
                             song.song_cate +
                             '_' +
                             song.song_no +
-                            '" /></div><div class="col d-flex justify-content-around"><input class="form-check-input song_cb" type="checkbox" name="cb_ap_mas_' +
+                            '" /></div><div class="col d-flex justify-content-around"><input class="form-check-input song_radio" type="radio" name="radio_mas_' +
                             song.song_cate +
                             '_' +
                             song.song_no +
@@ -292,28 +292,61 @@ $(function () {
                             song.song_cate +
                             '_' +
                             song.song_no +
-                            '" /></div></div><hr />'
+                            '" /></div></div>'
+                    );
+                    $('#songs_body').append(
+                        '<div class="row reset_row"><div class="col d-flex justify-content-around reset_btn_wrapper">' +
+                            '<button id="reset_btn_' +
+                            song.song_cate +
+                            '_' +
+                            song.song_no +
+                            '" class="btn btn-primary reset_btn">Reset</button>' +
+                            '</div></div><hr />'
                     );
                 });
                 // 체크된 checkbox를 목록에 저장
-                $('.song_cb').on('change', function (e) {
+                $('.song_radio').on('change', function (e) {
                     e.preventDefault();
-                    let v = this.value;
-                    console.log(v);
-                    if ($('#' + v).is(':checked')) {
-                        console.log(v + ' checked!');
-                        checked_val.push(v);
-                    } else {
-                        console.log(v + ' unchecked!');
-                        checked_val.splice(checked_val.indexOf(v), 1);
+                    let v = $(this).attr('id');
+                    let unchecked_val;
+                    switch (v.split('_')[1]) {
+                        case 'fc':
+                            unchecked_val = v.split('_')[0] + '_ap_' + v.split('_')[2] + '_' + v.split('_')[3] + '_' + v.split('_')[4];
+                            if (checked_val.has(unchecked_val)) {
+                                checked_val.delete(unchecked_val);
+                            }
+                            checked_val.add(v);
+                            break;
+                        case 'ap':
+                            unchecked_val = v.split('_')[0] + '_fc_' + v.split('_')[2] + '_' + v.split('_')[3] + '_' + v.split('_')[4];
+                            if (checked_val.has(unchecked_val)) {
+                                checked_val.delete(unchecked_val);
+                            }
+                            checked_val.add(v);
+                            break;
+                        default:
+                            break;
                     }
                     console.log(checked_val);
                 });
-                // checkbox 목록의 값 불러오기
-                $.each(checked_val, function (index, item) {
+                // checked_val set의 값 불러오기
+                for (const item of checked_val) {
                     if (!$('#' + item).is(':checked')) {
                         $('#' + item).attr('checked', true);
                     }
+                }
+                // Radio 리셋
+                $('.reset_btn').on('click', function (e) {
+                    e.preventDefault();
+                    let reset_btn_id = $(this).attr('id');
+                    let comp = reset_btn_id.split('_')[2] + '_' + reset_btn_id.split('_')[3];
+                    for (const value of checked_val) {
+                        if (value.endsWith(comp)) {
+                            $('#' + value).prop('checked', false);
+                            checked_val.delete(value);
+                        }
+                    }
+                    console.log(checked_val);
                 });
             },
             error: function () {
@@ -327,7 +360,7 @@ $(function () {
         e.preventDefault();
         let json_list = [];
         let s_json;
-        $.each(checked_val, function (index, item) {
+        for (const item of checked_val) {
             let data = new Object();
             let marker = item.split('_')[1];
             let difficulty = item.split('_')[2];
@@ -335,10 +368,10 @@ $(function () {
             let song_no = Number(item.split('_')[4]);
             switch (marker) {
                 case 'fc':
-                    marker = 'fc_';
+                    marker = 'fc';
                     break;
                 case 'ap':
-                    marker = 'ap_';
+                    marker = 'ap';
                     break;
                 default:
                     break;
@@ -356,12 +389,13 @@ $(function () {
                 default:
                     break;
             }
-            difficulty = marker + difficulty;
             data.song_no = song_no;
             data.song_cate = song_cate;
             data.difficulty = difficulty;
+            data.marker = marker;
+            data.score_col = marker + '_' + difficulty;
             json_list.push(data);
-        });
+        }
         s_json = JSON.stringify(json_list);
         // console.log(s_json);
         $.ajax({

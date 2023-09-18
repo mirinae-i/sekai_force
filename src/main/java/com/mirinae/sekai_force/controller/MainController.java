@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.mirinae.sekai_force.domain.SongInfoAllVO;
 import com.mirinae.sekai_force.service.MainService;
@@ -52,9 +53,22 @@ public class MainController {
     }
 
     @RequestMapping(path = "/check_submit", method = RequestMethod.POST)
+    @ResponseBody
     private void checkSubmit(@RequestBody String json) {
         logger.info("** MainController - checkSubmit() **");
         logger.info(json);
+    }
+
+    @RequestMapping(path = "/best_39", method = RequestMethod.GET)
+	private String best39() {
+		logger.info("** MainController - best_39() **");
+		return "/best_39";
+	}
+
+    @RequestMapping(path = "/best_39_action", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    private String best39Action(MultipartHttpServletRequest request) {
+        return service.best39Action(request);
     }
 
 }

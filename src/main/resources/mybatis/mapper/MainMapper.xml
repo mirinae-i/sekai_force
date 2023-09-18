@@ -7,4 +7,18 @@
             SELECT * FROM song_info_all
         ]]>
     </select>
+    <select id="getScore" parameterType="com.mirinae.sekai_force.domain.CheckedVO" resultType="com.mirinae.sekai_force.domain.Best39VO">
+        <![CDATA[
+            SELECT
+                song_info_all.song_no, song_info_all.song_cate, song_info_all.song_name_kr, score_all.${score_col}
+            FROM
+                song_info_all
+            INNER JOIN
+                score_all
+            ON
+                song_info_all.song_no = score_all.song_no AND song_info_all.song_cate = score_all.song_cate
+            WHERE
+                song_info_all.song_no = #{song_no} AND song_info_all.song_cate = #{song_cate};
+        ]]>
+    </select>
 </mapper>

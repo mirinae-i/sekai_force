@@ -35,9 +35,13 @@
   margin-bottom: 0.5rem;
 }
 
-.song_cb {
+.song_radio {
   width: 2rem;
   height: 2rem;
+}
+
+.reset_btn {
+  margin-top: 1rem;
 }
 
 .fc_row {

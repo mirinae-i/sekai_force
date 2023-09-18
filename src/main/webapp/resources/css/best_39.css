@@ -1,0 +1,24 @@
+.wrapper_out {
+  margin: 0.5rem;
+}
+
+.title_text {
+  line-height: 10rem;
+}
+
+#songs_header {
+  margin-bottom: 2rem;
+}
+
+.wrapper_asc_desc {
+  margin-bottom: 0.5rem;
+}
+
+.wrapper_chart,
+.wrapper_input {
+  margin-bottom: 2rem;
+}
+
+.wrapper_best39 .row .col-4 {
+  padding: 1rem;
+}
